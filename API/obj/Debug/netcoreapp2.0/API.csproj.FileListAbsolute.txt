@@ -1,0 +1,16 @@
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\API.deps.json
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.json
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\API.runtimeconfig.dev.json
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\API.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\API.pdb
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\Models.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\Repo.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\Services.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\Models.pdb
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\Services.pdb
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\bin\Debug\netcoreapp2.0\Repo.pdb
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\obj\Debug\netcoreapp2.0\API.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\obj\Debug\netcoreapp2.0\API.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\obj\Debug\netcoreapp2.0\API.AssemblyInfo.cs
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\obj\Debug\netcoreapp2.0\API.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\API\obj\Debug\netcoreapp2.0\API.pdb

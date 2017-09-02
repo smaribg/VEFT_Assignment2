@@ -1,0 +1,10 @@
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\bin\Debug\netstandard2.0\Repo.deps.json
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\bin\Debug\netstandard2.0\Repo.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\bin\Debug\netstandard2.0\Repo.pdb
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\bin\Debug\netstandard2.0\Models.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\bin\Debug\netstandard2.0\Models.pdb
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\obj\Debug\netstandard2.0\Repo.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\obj\Debug\netstandard2.0\Repo.AssemblyInfoInputs.cache
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\obj\Debug\netstandard2.0\Repo.AssemblyInfo.cs
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\obj\Debug\netstandard2.0\Repo.dll
+C:\Users\Lenovo\Documents\Haustonn2017\Veftjonustur\Verkefni\CoursesApi\Repo\obj\Debug\netstandard2.0\Repo.pdb
