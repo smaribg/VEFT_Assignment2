@@ -51,39 +51,119 @@ namespace API.Controllers
             return Ok(course);
         }
 
+        /// <summary>
+        /// Adds a course
+        /// </summary>
+        /// <param name="course">The course to be added</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("")]
         public IActionResult AddCourse([FromBody] CourseViewModel course)
         {
-            return Ok();
+            if(course == null){
+                return BadRequest();
+            }
+
+            if(!ModelState.IsValid){
+                return StatusCode(412);
+            }
+
+            bool valid = _coursesService.AddCourse(course);
+
+            if(valid)
+                return StatusCode(201);
+            else
+                return StatusCode(412);
         }
 
+        /// <summary>
+        /// Updates a course that already exists. StartDate and EndDates can be modified
+        /// </summary>
+        /// <param name="course">The values being changed</param>
+        /// <param name="courseId">The id of the course to be changed</param>
+        /// <returns></returns>
         [HttpPut]
         [Route("{courseId}")]
-        public IActionResult UpdateCourse([FromBody] CourseViewModel course, int courseId)
+        public IActionResult UpdateCourse([FromBody] CourseUpdateViewModel course, int courseId)
         {
-            return Ok();
+            if(course == null){
+                return BadRequest();
+            }
+
+            if(!ModelState.IsValid){
+                return StatusCode(412);
+            }
+
+            bool valid = _coursesService.UpdateCourse(course, courseId);
+
+            if(valid)
+                return Ok();
+            else
+                return StatusCode(404);        
         }
 
+        /// <summary>
+        /// Deletes a course
+        /// </summary>
+        /// <param name="courseId">The id of the course to be deleted</param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{courseId}")]
         public IActionResult DeleteCourse(int courseId)
         {
-            return Ok();
+            bool deleted = _coursesService.DeleteCourse(courseId);
+
+            if(!deleted){
+                return NotFound("Invalid Id");
+            }
+            else{
+                return StatusCode(204);
+            }
+
         }
 
+        /// <summary>
+        /// Returns the students of a course
+        /// </summary>
+        /// <param name="courseId">The id of the course </param>
+        /// <returns>A list of the students in the given course</returns>
         [HttpGet]
         [Route("{courseId}/students")]
         public IActionResult GetStudentsInCourse(int courseId)
         {
-            return Ok();
+            var students = _coursesService.GetStudentsInCourse(courseId);
+
+            if(students == null){
+                return NotFound("Invalid Id");
+            }
+
+            return Ok(students);
         }
 
+        /// <summary>
+        /// Adds a student to a course
+        /// </summary>
+        /// <param name="student">The student being added</param>
+        /// <param name="courseId">The id of the course that the student is being added to</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("{courseId}/students")]
         public IActionResult AddStudentToCourse([FromBody] StudentViewModel student, int courseId)
         {
-            return Ok();
+            if(student == null){
+                return BadRequest();
+            }
+
+            if(!ModelState.IsValid){
+                return StatusCode(412);
+            }
+
+            bool valid = _coursesService.AddStudentToCourse(student,courseId);
+
+            if(valid)
+                return StatusCode(201);
+            else
+                return StatusCode(412);
         }
     
 

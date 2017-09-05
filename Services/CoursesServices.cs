@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CoursesApi.Models.DTOs;
+using CoursesApi.Models.ViewModels;
 using CoursesApi.Repo;
 
 namespace CoursesApi.Services
@@ -15,20 +16,16 @@ namespace CoursesApi.Services
             _repo = repo;
         }
 
-        public IEnumerable<CourseDTO> GetCoursesBySemester(string semester)
+        public IEnumerable<CourseLiteDTO> GetCoursesBySemester(string semester)
         {
             var courses = _repo.GetCourses();
-            var coursesThisSemester = new List<CourseDTO>();
+            var coursesThisSemester = new List<CourseLiteDTO>();
 
 
-            foreach(CourseDTO c in courses){
+            foreach(CourseLiteDTO c in courses){
                 if(c.Semester == semester){
                     var courseTemplate = _repo.GetCourseTemplateByCourseId(c.CourseID);
                     var students = _repo.GetStudentsInCourse(c.ID);
-                    Console.Write(c.CourseID);
-                    if(courseTemplate == null){
-                        Console.Write("HAHA");
-                    }
                     c.Name = courseTemplate.Name;
                     c.NumberOfStudents = students.Count();
                     coursesThisSemester.Add(c);
@@ -38,7 +35,7 @@ namespace CoursesApi.Services
             return coursesThisSemester;
         }
 
-        public CourseDetailsDTO GetCourseById(int ID)
+        public CourseDTO GetCourseById(int ID)
         {
             var course = _repo.GetCourseById(ID);
 
@@ -56,5 +53,56 @@ namespace CoursesApi.Services
             }
 
         }
+
+        public bool AddCourse(CourseViewModel course)
+        {
+            var cTemplate = _repo.GetCourseTemplateByCourseId(course.CourseId);
+            if(cTemplate == null){
+                return false;
+            }
+
+            return _repo.AddCourse(new CourseDTO
+            {
+                Name = cTemplate.Name,
+                CourseID = course.CourseId,
+                Semester = course.Semester,
+                StartDate = course.StartDate,
+                EndDate = course.EndDate,
+            });
+            
+        }
+
+        public bool UpdateCourse(CourseUpdateViewModel course, int courseId)
+        {
+            return _repo.UpdateCourse(new CourseDTO
+            {
+                StartDate = course.StartDate,
+                EndDate = course.EndDate
+            }
+            ,courseId);
+        }
+
+        public bool DeleteCourse(int courseId)
+        {
+           return _repo.DeleteCourse(courseId);
+        }
+
+        public IEnumerable<StudentDTO> GetStudentsInCourse(int courseId)
+        {
+            return _repo.GetStudentsInCourse(courseId);
+        }
+
+        public bool AddStudentToCourse(StudentViewModel student, int courseId)
+        {
+            if(_repo.GetCourseById(courseId) == null)
+                return false;
+                
+            return _repo.AddStudentToCourse(new StudentDTO
+            {
+                Name = student.Name,
+                SSN = student.SSN
+            },courseId);
+        }
+
     }
 }
