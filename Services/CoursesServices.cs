@@ -68,6 +68,7 @@ namespace CoursesApi.Services
                 Semester = course.Semester,
                 StartDate = course.StartDate,
                 EndDate = course.EndDate,
+                MaxStudents = course.MaxStudents
             });
             
         }
@@ -77,7 +78,8 @@ namespace CoursesApi.Services
             return _repo.UpdateCourse(new CourseDTO
             {
                 StartDate = course.StartDate,
-                EndDate = course.EndDate
+                EndDate = course.EndDate,
+                MaxStudents = course.MaxStudents
             }
             ,courseId);
         }
@@ -98,6 +100,23 @@ namespace CoursesApi.Services
                 return false;
                 
             return _repo.AddStudentToCourse(new StudentDTO
+            {
+                Name = student.Name,
+                SSN = student.SSN
+            },courseId);
+        }
+
+        public IEnumerable<StudentDTO> GetWaitingListForCourse(int courseId)
+        {
+            return _repo.GetWaitingListForCourse(courseId);
+        }
+
+        public bool AddStudentToWaitList(StudentViewModel student, int courseId)
+        {
+            if(_repo.GetCourseById(courseId) == null)
+                return false;
+                
+            return _repo.AddStudentToWaitList(new StudentDTO
             {
                 Name = student.Name,
                 SSN = student.SSN

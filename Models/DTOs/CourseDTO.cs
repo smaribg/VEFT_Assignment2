@@ -40,5 +40,10 @@ namespace CoursesApi.Models.DTOs
         /// The list of students in the course.
         /// </summary>
         public List<StudentDTO> Students { get; set; }
+
+        /// <summary>
+        ///The maximum number of students allowed to enroll in the course
+        /// </summary>
+        public int MaxStudents { set; get; }
     }
 }

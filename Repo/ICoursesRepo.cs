@@ -20,5 +20,11 @@ namespace CoursesApi.Repo
         bool DeleteCourse(int courseId);
 
         bool AddStudentToCourse(StudentDTO student, int courseId);
+
+        IEnumerable<StudentDTO> GetWaitingListForCourse(int courseId);
+
+        bool AddStudentToWaitList(StudentDTO student, int courseId);
+
+
     }
 }

@@ -16,5 +16,7 @@ namespace CoursesApi.Repo
         public DbSet<Student> Students { get; set; }
 
         public DbSet<Enrollment> Enrollments { get; set; }
+
+        public DbSet<WaitingList> WaitingLists { get; set; }
     }
 }

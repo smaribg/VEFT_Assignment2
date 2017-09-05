@@ -64,7 +64,7 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            if(!ModelState.IsValid){
+            if(!ModelState.IsValid || course.MaxStudents == 0){
                 return StatusCode(412);
             }
 
@@ -90,7 +90,7 @@ namespace API.Controllers
                 return BadRequest();
             }
 
-            if(!ModelState.IsValid){
+            if(!ModelState.IsValid || course.MaxStudents == 0){
                 return StatusCode(412);
             }
 
@@ -165,6 +165,40 @@ namespace API.Controllers
             else
                 return StatusCode(412);
         }
+
+
+        [HttpGet]
+        [Route("{courseId}/waitinglist")]
+        public IActionResult GetWaitingListForCourse(int courseId){
+            var waitingList = _coursesService.GetWaitingListForCourse(courseId);
+
+            if(waitingList == null){
+                return NotFound("Invalid Id");
+            }
+
+            return Ok(waitingList);
+        }
+
+        [HttpPost]
+        [Route("{courseId}/waitinglist")]
+          public IActionResult AddStudentToWaitingList([FromBody] StudentViewModel student, int courseId)
+        {
+            if(student == null){
+                return BadRequest();
+            }
+
+            if(!ModelState.IsValid){
+                return StatusCode(412);
+            }
+
+            bool valid = _coursesService.AddStudentToWaitList(student,courseId);
+
+            if(valid)
+                return StatusCode(201);
+            else
+                return StatusCode(412);
+        }
+
     
 
     }

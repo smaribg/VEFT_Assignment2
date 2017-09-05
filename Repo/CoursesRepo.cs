@@ -38,7 +38,8 @@ namespace CoursesApi.Repo
                                 CourseID = c.CourseID,
                                 Semester = c.Semester,
                                 StartDate = c.StartDate,
-                                EndDate = c.EndDate
+                                EndDate = c.EndDate,
+                                MaxStudents = c.MaxStudents
                                 
                             }).SingleOrDefault();
             return course;
@@ -75,7 +76,7 @@ namespace CoursesApi.Repo
 
         public bool AddCourse(CourseDTO course){
 
-            _db.Courses.Add(new Course {CourseID = course.CourseID,Semester = course.Semester, StartDate = course.StartDate, EndDate = course.EndDate});
+            _db.Courses.Add(new Course {CourseID = course.CourseID,Semester = course.Semester, StartDate = course.StartDate, EndDate = course.EndDate, MaxStudents = course.MaxStudents});
 
             try
             {
@@ -102,6 +103,7 @@ namespace CoursesApi.Repo
             {
                 original.StartDate = course.StartDate;
                 original.EndDate = course.EndDate;
+                original.MaxStudents = course.MaxStudents;
             }
 
             try
@@ -178,6 +180,62 @@ namespace CoursesApi.Repo
 
             return true;
         }
+        
+        public IEnumerable<StudentDTO> GetWaitingListForCourse(int courseId)
+        {
+            var course = _db.Courses.Find(courseId);
+            if(course == null){
+                return null;
+            }
+            var students = (from s in _db.Students
+                            join wn in _db.WaitingLists on s.ID equals wn.StudentId
+                            where wn.CourseId == courseId
+                            select new StudentDTO
+                            {
+                                Name = s.Name,
+                                SSN = s.SSN
+                            }).ToList();
+            return students;
+        }
+
+        public bool AddStudentToWaitList(StudentDTO student, int courseId)
+        {
+             var stu = (from s in _db.Students
+                        where s.SSN == student.SSN
+                        select new Student
+                        {   ID = s.ID,
+                            SSN = s.SSN,
+                            Name = s.Name
+                        }).SingleOrDefault();
+            
+            if(stu == null){
+                stu = new Student{Name = student.Name, SSN = student.SSN};
+                _db.Students.Add(stu);
+            }
+
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch(DbUpdateException e)
+            {
+                return false;
+            }
+
+            _db.WaitingLists.Add(new WaitingList{CourseId = courseId, StudentId = stu.ID});
+
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch(DbUpdateException e)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
     }
 }

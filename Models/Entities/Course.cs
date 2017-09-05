@@ -32,5 +32,10 @@ namespace CoursesApi.Models.Entities
         /// </summary>
         public DateTime EndDate { set; get; }
 
+        /// <summary>
+        ///The maximum number of students allowed to enroll in the course
+        /// </summary>
+        public int MaxStudents { set; get; }
+
     }
 }
