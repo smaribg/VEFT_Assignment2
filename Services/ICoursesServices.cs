@@ -19,11 +19,13 @@ namespace CoursesApi.Services
 
         IEnumerable<StudentDTO> GetStudentsInCourse(int courseId);
 
-        bool AddStudentToCourse(StudentViewModel student, int courseId);
+        void AddStudentToCourse(StudentViewModel student, int courseId);
 
         IEnumerable<StudentDTO> GetWaitingListForCourse(int courseId);
 
-        bool AddStudentToWaitList(StudentViewModel student, int courseId);
+        void AddStudentToWaitList(StudentViewModel student, int courseId);
+
+        void DeleteStudentFromWaitingList(int courseId, string studentSSN);
 
     }
 }

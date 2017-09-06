@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CoursesApi.Models.DTOs;
 using CoursesApi.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using CoursesApi.Models;
 
 namespace CoursesApi.Repo
 {
@@ -143,31 +144,23 @@ namespace CoursesApi.Repo
             return true;
         }
 
-        public bool AddStudentToCourse(StudentDTO student, int courseId)
-        {
+        public int GetStudentId(String SSN){
             var stu = (from s in _db.Students
-                        where s.SSN == student.SSN
+                        where s.SSN == SSN
                         select new Student
                         {   ID = s.ID,
                             SSN = s.SSN,
                             Name = s.Name
                         }).SingleOrDefault();
-            
             if(stu == null){
-                stu = new Student{Name = student.Name, SSN = student.SSN};
-                _db.Students.Add(stu);
+                return -1;
             }
+            return stu.ID;
+        }
 
-            try
-            {
-                _db.SaveChanges();
-            }
-            catch(DbUpdateException e)
-            {
-                return false;
-            }
-
-            _db.Enrollments.Add(new Enrollment{CourseId = courseId, StudentId = stu.ID});
+        public bool AddStudentToCourse(int studentId, int courseId)
+        {
+            _db.Enrollments.Add(new Enrollment{CourseId = courseId, StudentId = studentId});
 
             try
             {
@@ -198,31 +191,10 @@ namespace CoursesApi.Repo
             return students;
         }
 
-        public bool AddStudentToWaitList(StudentDTO student, int courseId)
+        public bool AddStudentToWaitList(int studentID, int courseId)
         {
-             var stu = (from s in _db.Students
-                        where s.SSN == student.SSN
-                        select new Student
-                        {   ID = s.ID,
-                            SSN = s.SSN,
-                            Name = s.Name
-                        }).SingleOrDefault();
-            
-            if(stu == null){
-                stu = new Student{Name = student.Name, SSN = student.SSN};
-                _db.Students.Add(stu);
-            }
 
-            try
-            {
-                _db.SaveChanges();
-            }
-            catch(DbUpdateException e)
-            {
-                return false;
-            }
-
-            _db.WaitingLists.Add(new WaitingList{CourseId = courseId, StudentId = stu.ID});
+            _db.WaitingLists.Add(new WaitingList{CourseId = courseId, StudentId = studentID});
 
             try
             {
@@ -236,6 +208,19 @@ namespace CoursesApi.Repo
             return true;
         }
 
+        public void DeleteStudentFromWaitingList(int courseId, string studentSSN)
+        {
+
+        }
+
+        public IEnumerable<StudentDTO> GetAllStudents(){
+            var students = (from s in _db.Students
+                            select new StudentDTO{
+                                Name = s.Name,
+                                SSN = s.SSN,
+                            }).ToList();
+            return students;
+        }
 
     }
 }

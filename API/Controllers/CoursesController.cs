@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoursesApi.Models;
 using CoursesApi.Models.ViewModels;
 using CoursesApi.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -158,12 +159,17 @@ namespace API.Controllers
                 return StatusCode(412);
             }
 
-            bool valid = _coursesService.AddStudentToCourse(student,courseId);
+            try{
+                _coursesService.AddStudentToCourse(student,courseId);
+            }catch(NotFoundException e){
+                return NotFound();
+            }catch(AlreadyEnrolledException e){
+                return StatusCode(412, "Already enrolled");
+            }catch(CourseFullException e){
+                return StatusCode(412, "Course is full");
+            }
 
-            if(valid)
-                return StatusCode(201);
-            else
-                return StatusCode(412);
+            return StatusCode(201);
         }
 
 
@@ -191,15 +197,23 @@ namespace API.Controllers
                 return StatusCode(412);
             }
 
-            bool valid = _coursesService.AddStudentToWaitList(student,courseId);
-
-            if(valid)
-                return StatusCode(201);
-            else
+            try{
+                _coursesService.AddStudentToWaitList(student,courseId);
+            }catch(NotFoundException e){
+                return NotFound();
+            }catch(AlreadyEnrolledException e){
                 return StatusCode(412);
+            }
+
+            return StatusCode(201);
         }
 
+        [HttpDelete]
+        [Route("{courseId}/waitinglist/{studentSSN}")]
+        public IActionResult DeleteStudentFromWaitingList(int courseId, string studentSSN)
+        {
+            
+        }
     
-
     }
 }

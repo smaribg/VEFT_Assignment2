@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoursesApi.Models;
 using CoursesApi.Models.DTOs;
 using CoursesApi.Models.ViewModels;
 using CoursesApi.Repo;
@@ -94,16 +95,34 @@ namespace CoursesApi.Services
             return _repo.GetStudentsInCourse(courseId);
         }
 
-        public bool AddStudentToCourse(StudentViewModel student, int courseId)
+        public void AddStudentToCourse(StudentViewModel student, int courseId)
         {
-            if(_repo.GetCourseById(courseId) == null)
-                return false;
-                
-            return _repo.AddStudentToCourse(new StudentDTO
-            {
-                Name = student.Name,
-                SSN = student.SSN
-            },courseId);
+            int studentID = _repo.GetStudentId(student.SSN);
+            var course = _repo.GetCourseById(courseId);
+
+            if( course == null || studentID == -1)
+                throw new NotFoundException();
+
+            List<StudentDTO> studentList = _repo.GetStudentsInCourse(courseId).ToList();
+            foreach(StudentDTO s in studentList){
+                if(s.SSN == student.SSN){
+                    throw new AlreadyEnrolledException();
+                }
+            }
+
+            if(studentList.Count >= course.MaxStudents){
+                throw new CourseFullException();
+            }
+
+            List<StudentDTO> waitingList = _repo.GetWaitingListForCourse(courseId).ToList();
+            foreach(StudentDTO s in waitingList){
+                if(s.SSN == student.SSN){
+
+                }
+            }
+            
+
+            _repo.AddStudentToCourse(studentID,courseId);
         }
 
         public IEnumerable<StudentDTO> GetWaitingListForCourse(int courseId)
@@ -111,17 +130,39 @@ namespace CoursesApi.Services
             return _repo.GetWaitingListForCourse(courseId);
         }
 
-        public bool AddStudentToWaitList(StudentViewModel student, int courseId)
+        public void AddStudentToWaitList(StudentViewModel student, int courseId)
         {
-            if(_repo.GetCourseById(courseId) == null)
-                return false;
+            int studentID = _repo.GetStudentId(student.SSN);
+
+            if(_repo.GetCourseById(courseId) == null || studentID == -1)
+                throw new NotFoundException();
+
                 
-            return _repo.AddStudentToWaitList(new StudentDTO
-            {
-                Name = student.Name,
-                SSN = student.SSN
-            },courseId);
+            List<StudentDTO> studentList = _repo.GetStudentsInCourse(courseId).ToList();
+            foreach(StudentDTO s in studentList){
+                if(s.SSN == student.SSN){
+                    throw new AlreadyEnrolledException();
+                }
+            }
+            _repo.AddStudentToWaitList(studentID,courseId);
         }
+
+        public void DeleteStudentFromWaitingList(int courseId, string studentSSN)
+        {
+            List<StudentDTO> students = _repo.GetAllStudents().ToList();
+            List<StudentDTO> studentsInWaitingList = _repo.GetWaitingListForCourse(courseId).ToList();
+
+            if(_repo.GetCourseById(courseId) == null || students.Where(x => x.SSN == studentSSN) == null){
+                throw new NotFoundException();
+            }
+
+            if(studentsInWaitingList.Where(x => x.SSN == studentSSN) != null){
+                throw new NotEnrolledException();
+            }
+
+            _repo.DeleteStudentFromWaitingList(courseId,studentSSN);
+        }
+
 
     }
 }
