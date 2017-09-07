@@ -29,5 +29,6 @@ namespace CoursesApi.Repo
 
         void DeleteStudentFromWaitingList(int courseId, string studentSSN);
         IEnumerable<StudentDTO> GetAllStudents();
+        void RemoveStudentFromCourse(int courseId, string studentSSN);
     }
 }

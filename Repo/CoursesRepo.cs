@@ -210,7 +210,24 @@ namespace CoursesApi.Repo
 
         public void DeleteStudentFromWaitingList(int courseId, string studentSSN)
         {
+            var student = (from s in _db.Students
+                        where s.SSN == studentSSN
+                        select new Student
+                        {   ID = s.ID,
+                            SSN = s.SSN,
+                            Name = s.Name
+                        }).SingleOrDefault();
 
+            _db.WaitingLists.Remove(new WaitingList{StudentId = student.ID, CourseId = courseId});
+
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch(DbUpdateException e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<StudentDTO> GetAllStudents(){
@@ -220,6 +237,19 @@ namespace CoursesApi.Repo
                                 SSN = s.SSN,
                             }).ToList();
             return students;
+        }
+
+        public void RemoveStudentFromCourse(int courseId, string studentSSN){
+
+            var student = (from s in _db.Students
+                        where s.SSN == studentSSN
+                        select new Student
+                        {   ID = s.ID,
+                            SSN = s.SSN,
+                            Name = s.Name
+                        }).SingleOrDefault();
+                        //WHAT DO?
+                        // bool property í student entity, active?
         }
 
     }

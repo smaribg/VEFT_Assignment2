@@ -26,6 +26,6 @@ namespace CoursesApi.Services
         void AddStudentToWaitList(StudentViewModel student, int courseId);
 
         void DeleteStudentFromWaitingList(int courseId, string studentSSN);
-
+        void RemoveStudentFromCourse(int courseId, string studentSSN);
     }
 }

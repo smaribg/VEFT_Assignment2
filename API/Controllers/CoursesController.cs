@@ -212,7 +212,28 @@ namespace API.Controllers
         [Route("{courseId}/waitinglist/{studentSSN}")]
         public IActionResult DeleteStudentFromWaitingList(int courseId, string studentSSN)
         {
-            
+            try{
+                _coursesService.DeleteStudentFromWaitingList(courseId, studentSSN);
+            }catch(NotFoundException e){
+                return NotFound();
+            }catch(NotEnrolledException e){
+                return StatusCode(412, "Student not enrolled");
+            }
+            return StatusCode(204);
+        }
+
+        [HttpDelete]
+        [Route("{courseId}/students/{studentSSN}")]
+        public IActionResult RemoveStudentFromCourse(int courseId, string studentSSN)
+        {
+            try{
+                _coursesService.RemoveStudentFromCourse(courseId, studentSSN);
+            }catch(NotFoundException e){
+                return NotFound();
+            }catch(NotEnrolledException e){
+                return StatusCode(412, "Student not enrolled");
+            }
+            return StatusCode(204);
         }
     
     }

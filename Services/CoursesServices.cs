@@ -117,7 +117,7 @@ namespace CoursesApi.Services
             List<StudentDTO> waitingList = _repo.GetWaitingListForCourse(courseId).ToList();
             foreach(StudentDTO s in waitingList){
                 if(s.SSN == student.SSN){
-
+                    _repo.DeleteStudentFromWaitingList(courseId, student.SSN);
                 }
             }
             
@@ -144,6 +144,12 @@ namespace CoursesApi.Services
                     throw new AlreadyEnrolledException();
                 }
             }
+            List<StudentDTO> waitingList = _repo.GetWaitingListForCourse(courseId).ToList();
+            foreach(StudentDTO s in waitingList){
+                if(s.SSN == student.SSN){
+                    throw new AlreadyEnrolledException();
+                }
+            }
             _repo.AddStudentToWaitList(studentID,courseId);
         }
 
@@ -161,6 +167,22 @@ namespace CoursesApi.Services
             }
 
             _repo.DeleteStudentFromWaitingList(courseId,studentSSN);
+        }
+
+        public void RemoveStudentFromCourse(int courseId, string studentSSN)
+        {
+            List<StudentDTO> students = _repo.GetAllStudents().ToList();
+            List<StudentDTO> studentsInCourse = _repo.GetStudentsInCourse(courseId).ToList();
+
+            if(_repo.GetCourseById(courseId) == null || students.Where(x => x.SSN == studentSSN) == null){
+                throw new NotFoundException();
+            }
+
+            if(studentsInCourse.Where(x => x.SSN == studentSSN) != null){
+                throw new NotEnrolledException();
+            }
+
+            _repo.RemoveStudentFromCourse(courseId,studentSSN);
         }
 
 
